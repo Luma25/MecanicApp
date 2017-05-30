@@ -190,10 +190,8 @@ class usuario_bdd extends CI_Model {
 
         }
 
-
-        //No se usa
-        //Muestra los vehiculos para recibir
-        public function vehiculos_recepcion($idveh,$estado)
+        //Muestra los vehiculos chequeados, mas los sevicios por confirmar el cliente //trabajar aqui
+        public function vehiculos_confirmados($idveh,$estado)
         {
                 
             if ($idveh === FALSE)
@@ -219,7 +217,6 @@ class usuario_bdd extends CI_Model {
 
 
 
-
         //Elmina el agedamiento del vehiculo        
         public function eliminar_agenda($idveh)
         {
@@ -232,7 +229,7 @@ class usuario_bdd extends CI_Model {
         public function servicios(){
 
             $query = $this->db->get('servicio');
-            return $query->row_array();
+            return $query->result_array();
         }
 
         

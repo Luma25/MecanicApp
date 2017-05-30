@@ -363,12 +363,13 @@ class Mecanicapp extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    //Se insertan los servicios por hacer
+    //Se insertan los servicios por hacer. se debe mejorar esta version
     public function vehchec($idveh)
     {
         $data['title'] = 'Seleccione servicio';
         $data['servicios']=$this->usuario_bdd->servicios();
         $data['idveh']=$idveh;
+
 
         $this->load->helper('form');
         $this->load->library('form_validation');
@@ -401,10 +402,19 @@ class Mecanicapp extends CI_Controller {
     
     public function finche($idveh)
     {
-        $this->usuario_bdd->modifica_estado($idveh,'reparar');
+        $this->usuario_bdd->modifica_estado($idveh,'confirmar');
         $this->load->view('avisos/cheqlisto');
             
     }
 
+    public function listconf()
+    {
+        $data['title'] = 'Verificar costos';   
+        $data['vehiculos']=$this->usuario_bdd->vehiculos_confirmados;
 
+        $this->load->view('templates/header',$data);
+        $this->load->view('liscon',$data);
+        $this->load->view('templates/footer');
+
+    }
 }

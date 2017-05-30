@@ -7,7 +7,7 @@
     <select name="servicio">
     	<?php foreach ($servicios as $news_item): ?>
 
-    		<option value=<?php echo $news_item['patente'];?>><?php echo $news_item['patente'];?></option>
+    		<option value=<?php echo $news_item['id'];?>><?php echo $news_item['nombre'];?></option>
 
 
 

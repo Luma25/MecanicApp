@@ -8,11 +8,53 @@ class Mecanicapp extends CI_Controller {
         $this->load->library('session');
 
         }
+
+public function menu(){
+$data['title']='Bienvenido a MecanicApp, ' . $this->session->userdata('nombre');
+
+
+        $data['subtitle1'] = 'Seleccione funcion';
+
+        $this->load->view('templates/header',$data);
+
+        switch ($this->session->userdata('log')) {
+            
+            case 'administrador':
+                    $this->load->view('/menus/menprinadm',$data);    
+                    break;
+            case 'ejecutivo':
+
+                    $this->load->view('/menus/menprineje',$data);    
+                    break;  
+            case 'mecanico':
+
+                    $this->load->view('/menus/menprinmec',$data);    
+                    break;
+            default:        
+
+                    $this->load->view('/menus/menprincli',$data);    
+                    break;      
+        }
+
+        $this->load->view('templates/footer');
+    
+    }
+
+public function logout()
+    {
+        $this->session->sess_destroy();
+        //$this->index();
+        redirect('prueba');
+
+    }
+
+
   
     //inicio pagina con lista de opcione separadas por tipo de usuario
     public function index()
     {
 
+        if($this->session->userdata('log')==null){
 
         $this->session->sess_destroy();
 
@@ -47,6 +89,7 @@ class Mecanicapp extends CI_Controller {
             if($us != null){
                 if($us->password == $pass){
                     $data = array(
+                        'nombre' => $us->nombre,
                         'mail' => $mail,
                         'pass' => $pass,
                         'log' => $us->acceso
@@ -55,72 +98,21 @@ class Mecanicapp extends CI_Controller {
 
                     $this->session->set_userdata($data);
 
-
-
-                    $data['title']='Bienvenido a MecanicApp, ' . $us->nombre;
-
-
-                    $data['subtitle1'] = 'Seleccione funcion';
-
-                    $this->load->view('templates/header',$data);
-        
-                    if($us->acceso=="cliente"){
-
-                        $this->load->view('menus/menprincli',$data);    
-                    }
-
-                    if($us->acceso=="ejecutivo"){
-
-                        $this->load->view('menus/menprineje',$data);    
-                    }
-
-                    if($us->acceso=="mecanico"){
-
-                        $this->load->view('menus/menprinmec',$data);    
-                    }
-
-                    if($us->acceso=="administrador"){
-
-                        $this->load->view('menus/menprinadm',$data);    
-                    }
-                    
-        
-                    $this->load->view('templates/footer');
+                    $this->menu();
                 }
-                else{
-                    $this->load->view('templates/header',$data);
-        
-       
-                    $this->load->view('entrada',$data);
-        
-                    $this->load->view('templates/footer');
-
-                }
-
-                
-
-            }
-            else{
-                $this->load->view('templates/header',$data);
-        
-       
-                $this->load->view('entrada',$data);
-        
-                $this->load->view('templates/footer');
 
             }
 
 
 
 
+        }}
+        else{
+
+            $this->menu();
         }
-        /*
-    $data['title']='Bienvenido a MecanicApp';
+      
 
-	$this->load->view('templates/header',$data);
-	$this->load->view('bienvenida');
-	$this->load->view('templates/footer');
-    */
 	}
 	
 
